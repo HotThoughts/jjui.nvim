@@ -1,0 +1,45 @@
+# Pre-commit hooks for jjui.nvim
+# See https://pre-commit.com for more information
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+      - id: end-of-file-fixer
+        name: Fix end of files
+      - id: check-yaml
+        name: Check YAML syntax
+      - id: check-toml
+        name: Check TOML syntax
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=500']
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+      - id: mixed-line-ending
+        name: Check line endings
+        args: ['--fix=lf']
+
+  # Lua formatting with StyLua
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v2.3.1
+    hooks:
+      - id: stylua
+        name: Format Lua files with StyLua
+        args: ['--config-path', '.stylua.toml']
+        types: [lua]
+
+  # Lua linting with Luacheck (uses .luacheckrc for configuration)
+  - repo: https://github.com/lunarmodules/luacheck
+    rev: v1.2.0
+    hooks:
+      - id: luacheck
+
+  # VimScript linting with Vint
+  - repo: https://github.com/Vimjas/vint
+    rev: v0.4a3
+    hooks:
+      - id: vint
+        name: Lint VimScript files with Vint

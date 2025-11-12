@@ -1,0 +1,24 @@
+# Lua
+*.lua.bak
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+.nvimlog
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Test artifacts
+test/
+tmp/
+
+# Pre-commit
+.luacheckcache/

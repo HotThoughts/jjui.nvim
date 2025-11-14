@@ -2,6 +2,8 @@
 
 A Neovim plugin for integrating [jjui](https://github.com/idursun/jjui) - a terminal UI for the Jujutsu (jj) version control system. Similar to [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim), but for jj/jjui.
 
+![Demo](demo.png)
+
 ![jjui.nvim](https://img.shields.io/badge/neovim-%230.8+-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 

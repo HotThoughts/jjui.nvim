@@ -16,14 +16,12 @@ A Neovim plugin for integrating [jjui](https://github.com/idursun/jjui) - a term
 - ⚙️ Direct access to jjui configuration
 - 💻 LazyVim compatible
 - 🎨 Customizable window appearance and behavior
-- 🔄 [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) integration for enhanced window management
 
 ## 📋 Requirements
 
 - Neovim >= 0.8.0
 - [jjui](https://github.com/idursun/jjui) installed and in your PATH
 - [jj](https://github.com/martinvonz/jj) version control system
-- [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) - Required dependency
 
 ## 📦 Installation
 
@@ -32,9 +30,6 @@ A Neovim plugin for integrating [jjui](https://github.com/idursun/jjui) - a term
 ```lua
 {
   "HotThoughts/jjui.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim", -- required
-  },
   cmd = {
     "JJUI",
     "JJUICurrentFile",
@@ -62,9 +57,6 @@ A Neovim plugin for integrating [jjui](https://github.com/idursun/jjui) - a term
 ```lua
 use {
   'HotThoughts/jjui.nvim',
-  requires = {
-    'nvim-lua/plenary.nvim',
-  },
   config = function()
     require('jjui').setup()
   end
@@ -74,7 +66,6 @@ use {
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```vim
-Plug 'nvim-lua/plenary.nvim'
 Plug 'HotThoughts/jjui.nvim'
 ```
 
@@ -342,12 +333,7 @@ cargo install jjui
 ### Floating window not appearing
 
 1. Check Neovim version: `nvim --version` (requires >= 0.8.0)
-2. Try disabling plenary integration:
-   ```lua
-   require('jjui').setup({
-     floating_window_use_plenary = 0,
-   })
-   ```
+2. Ensure `jjui` is installed and in your PATH.
 
 ### Repository not detected
 

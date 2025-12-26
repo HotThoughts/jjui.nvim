@@ -1,17 +1,11 @@
 -- jjui.nvim - Neovim plugin for jjui integration
 -- Similar to lazygit.nvim but for jj version control
 
-if not pcall(require, 'plenary') then
-  vim.notify('jjui.nvim requires plenary.nvim to be installed', vim.log.levels.ERROR)
-  return {}
-end
-
 local M = {
   config = {
     floating_window_winblend = 0,
     floating_window_scaling_factor = 0.85,
     floating_window_border = 'rounded',
-    floating_window_use_plenary = 1,
     use_neovim_remote = 1,
     use_custom_config_file_path = 0,
     config_file_path = '',
@@ -198,7 +192,6 @@ function M.setup(opts)
     'jjui_floating_window_winblend',
     'jjui_floating_window_scaling_factor',
     'jjui_floating_window_border',
-    'jjui_floating_window_use_plenary',
     'jjui_use_neovim_remote',
     'jjui_use_custom_config_file_path',
     'jjui_config_file_path',
@@ -206,6 +199,14 @@ function M.setup(opts)
   }) do
     if vim.g[var] ~= nil then
       M.config[var:gsub('^jjui_', '')] = vim.g[var]
+    end
+  end
+
+  -- Validate configuration
+  local ok, errors = utils.validate_config(M.config)
+  if not ok then
+    for _, err in ipairs(errors) do
+      vim.notify('jjui.nvim: ' .. err, vim.log.levels.WARN)
     end
   end
 

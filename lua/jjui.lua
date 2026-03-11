@@ -138,15 +138,16 @@ end
 -- Open jjui for current file's repository
 function M.jjui_current_file()
   local orig_dir = vim.fn.getcwd()
-  vim.cmd('cd ' .. vim.fn.expand('%:p:h'))
+  vim.cmd('cd ' .. vim.fn.fnameescape(vim.fn.expand('%:p:h')))
 
   M.jjui()
 
   local orig_cb = M.config.on_exit_callback
-  M.config.on_exit_callback = function()
-    vim.cmd('cd ' .. orig_dir)
+  M.config.on_exit_callback = function(...)
+    M.config.on_exit_callback = orig_cb
+    vim.cmd('cd ' .. vim.fn.fnameescape(orig_dir))
     if orig_cb then
-      orig_cb()
+      orig_cb(...)
     end
   end
 end
@@ -164,12 +165,26 @@ function M.jjui_filter_current_file()
     return
   end
 
-  if not utils.get_repo_root() then
+  local repo_root = utils.get_repo_root(vim.fn.fnamemodify(file, ':h'))
+  if not repo_root then
     vim.notify('Not in a jj repository', vim.log.levels.WARN)
     return
   end
 
-  M.jjui('-r "files(' .. vim.fn.shellescape(vim.fn.fnamemodify(file, ':.')) .. ')"')
+  local orig_dir = vim.fn.getcwd()
+  vim.cmd('cd ' .. vim.fn.fnameescape(repo_root))
+  local rel_path = vim.fn.fnamemodify(file, ':.')
+
+  M.jjui('-r "files(' .. vim.fn.shellescape(rel_path) .. ')"')
+
+  local orig_cb = M.config.on_exit_callback
+  M.config.on_exit_callback = function(...)
+    M.config.on_exit_callback = orig_cb
+    vim.cmd('cd ' .. vim.fn.fnameescape(orig_dir))
+    if orig_cb then
+      orig_cb(...)
+    end
+  end
 end
 
 -- Open jjui config

@@ -143,10 +143,11 @@ function M.jjui_current_file()
   M.jjui()
 
   local orig_cb = M.config.on_exit_callback
-  M.config.on_exit_callback = function()
+  M.config.on_exit_callback = function(...)
+    M.config.on_exit_callback = orig_cb
     vim.cmd('cd ' .. vim.fn.fnameescape(orig_dir))
     if orig_cb then
-      orig_cb()
+      orig_cb(...)
     end
   end
 end
@@ -170,17 +171,18 @@ function M.jjui_filter_current_file()
     return
   end
 
-  local rel_path = vim.fn.fnamemodify(file, ':s?' .. vim.pesc(repo_root .. '/') .. '??')
   local orig_dir = vim.fn.getcwd()
   vim.cmd('cd ' .. vim.fn.fnameescape(repo_root))
+  local rel_path = vim.fn.fnamemodify(file, ':.')
 
   M.jjui('-r "files(' .. vim.fn.shellescape(rel_path) .. ')"')
 
   local orig_cb = M.config.on_exit_callback
-  M.config.on_exit_callback = function()
+  M.config.on_exit_callback = function(...)
+    M.config.on_exit_callback = orig_cb
     vim.cmd('cd ' .. vim.fn.fnameescape(orig_dir))
     if orig_cb then
-      orig_cb()
+      orig_cb(...)
     end
   end
 end
